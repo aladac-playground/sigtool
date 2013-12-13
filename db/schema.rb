@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131213132915) do
+ActiveRecord::Schema.define(version: 20131213160032) do
 
   create_table "cons", force: true do |t|
     t.string   "name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20131213132915) do
   create_table "scans", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "rid"
   end
 
   create_table "sigs", force: true do |t|

@@ -1,10 +1,10 @@
 .well
-  %a{ href: "/scan/paste?scan_id=#{params[:scan_id]}"}
+  %a{ href: "/scan/paste?rid=#{params[:rid]}"}
     %button.btn.btn-main
       Add Scan
   %h3 
     Scan Results
-  %table.table.table-striped
+  %table.table.table-striped.sig-result
     %tr
       %th System
       %th ID
@@ -22,4 +22,4 @@
         %td
           %form{ method: :post, action: "/scan/delete?sig_id=#{sig.sig_id}"}
             %button.btn-xs.btn-danger
-              X
+              x

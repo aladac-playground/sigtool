@@ -5,11 +5,13 @@ class ScanController < ApplicationController
   end
   
   def view
-    if params[:scan_id]
-      @sigs = Sig.where(scan_id: params[:scan_id]).order(:system_id, :group_id)
+    if params[:rid]
+      @sigs=""
+      scan = Scan.where(rid: params[:rid]).first
+      @sigs = Sig.where(scan_id: scan.id).order(:system_id, :group_id) if scan
       if @sigs.empty?
         flash[:warning] = "No results under that ScanID"
-        redirect_to(root_path)
+        redirect_to "/scan/paste?rid=#{params[:rid]}"
       end
     else
       flash[:warning] = "Requires ScanID"
@@ -21,12 +23,20 @@ class ScanController < ApplicationController
   end
   
   def parse
-    if ! params[:scan_id]
+    if ! params[:rid]
       scan=Scan.create
+      scan.rid = SecureRandom.hex
+      scan.save
     else
-      scan=Scan.find(params[:scan_id])
+      scan=Scan.where(rid: params[:rid]).first
+      if ! scan
+        scan=Scan.new
+        scan.rid = params[:rid]
+        scan.save
+      end
     end
     id = scan.id
+    rid = scan.rid
     system_name = request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
     cons_name = request.headers["HTTP_EVE_CONSTELLATIONNAME"]
     
@@ -70,7 +80,7 @@ class ScanController < ApplicationController
         Sig.create(sig_id: scanrow[0], group_id: group_id, type_id: type_id, scan_id: scan.id, system_id: system_id )
       end
     end
-    redirect_to "/scan/view?scan_id=#{id}"
+    redirect_to "/scan/view?rid=#{rid}"
   end
   def delete
     if params[:sig_id]

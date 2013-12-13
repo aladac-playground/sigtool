@@ -1,7 +1,7 @@
 - if @trust
   .well
-    - if params[:scan_id]
-      - action = "/scan/parse?scan_id=#{params[:scan_id]}"
+    - if params[:rid]
+      - action = "/scan/parse?rid=#{params[:rid]}"
     - else
       - action = "/scan/parse"
     %form{ method: :post, action: action }
