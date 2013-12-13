@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sig_id: MyString
+  type_id: 
+  group_id: 
+  scan_id: 
+
+two:
+  sig_id: MyString
+  type_id: 
+  group_id: 
+  scan_id: 
