@@ -1,8 +1,8 @@
 .well
-  %form{ method: :post }
+  %form{ method: :post, action: "/scan/parse" }
     %legend Paste scan result
     %p
-    %textarea{ name: :scan, cols: 100, rows: 10 }
+    %textarea{ name: :paste, cols: 100, rows: 10 }
     %p
     %button.btn.btn-main{ type: :submit }
       Submit

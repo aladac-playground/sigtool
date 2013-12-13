@@ -2,6 +2,7 @@ Sigtool::Application.routes.draw do
   get "scan/paste"
   get "scan/view"
   get "scan/add"
+  post "scan/parse"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
