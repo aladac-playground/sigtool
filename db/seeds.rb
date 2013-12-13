@@ -5,3 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+systems = File.readlines("systems.csv")
+
+systems.each do |line|
+  line=line.chomp
+  line=line.split("\t")
+  id = line[0]
+  cons_id = line[1]
+  name = line[2]
+  System.create(id: id, cons_id: cons_id, name: name)
+end

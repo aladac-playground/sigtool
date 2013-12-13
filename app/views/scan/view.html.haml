@@ -1,2 +1,25 @@
-%h1 Scan#view
-%p Find me in app/views/scan/view.html.haml
+.well
+  %a{ href: "/scan/paste?scan_id=#{params[:scan_id]}"}
+    %button.btn.btn-main
+      Add Scan
+  %h3 
+    Scan Results
+  %table.table.table-striped
+    %tr
+      %th System
+      %th ID
+      %th Group
+      %th Type
+      %th Created at
+      %th Delete
+    - @sigs.each do |sig|
+      %tr
+        %td= sig.system.name
+        %td= sig.sig_id
+        %td= sig.group.name
+        %td= sig.type.name
+        %td= sig.created_at
+        %td
+          %form{ method: :post, action: "/scan/delete?sig_id=#{sig.sig_id}"}
+            %button.btn-xs.btn-danger
+              X

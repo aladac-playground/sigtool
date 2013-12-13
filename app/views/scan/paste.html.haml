@@ -1,8 +1,13 @@
-.well
-  %form{ method: :post, action: "/scan/parse" }
-    %legend Paste scan result
-    %p
-    %textarea{ name: :paste, cols: 100, rows: 10 }
-    %p
-    %button.btn.btn-main{ type: :submit }
-      Submit
+- if @trust
+  .well
+    - if params[:scan_id]
+      - action = "/scan/parse?scan_id=#{params[:scan_id]}"
+    - else
+      - action = "/scan/parse"
+    %form{ method: :post, action: action }
+      %legend Paste scan result
+      %p
+      %textarea{ name: :paste, cols: 100, rows: 10 }
+      %p
+      %button.btn.btn-main{ type: :submit }
+        Submit
