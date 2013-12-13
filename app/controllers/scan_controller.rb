@@ -6,6 +6,7 @@ class ScanController < ApplicationController
   
   def view
     if params[:rid]
+      @groups=Group.all
       @sigs=""
       scan = Scan.where(rid: params[:rid]).first
       dt = Time.parse("11:00 UTC")
