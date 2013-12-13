@@ -8,7 +8,8 @@ class ScanController < ApplicationController
     if params[:rid]
       @sigs=""
       scan = Scan.where(rid: params[:rid]).first
-      @sigs = Sig.where(scan_id: scan.id).order(:system_id, :group_id) if scan
+      dt = Time.parse("11:00 UTC")
+      @sigs = Sig.where("scan_id = #{scan.id} and created_at > '#{dt}'").order(:system_id, :group_id) if scan
       if @sigs.empty?
         flash[:warning] = "No results under that ScanID"
         redirect_to "/scan/paste?rid=#{params[:rid]}"
@@ -75,8 +76,6 @@ class ScanController < ApplicationController
         group_id = group.id
         sig_id = scanrow[0]  
         
-        d = { sig_id: scanrow[0], group_id: group_id, type_id: type_id, scan_id: scan.id, system_id: system_id }
-        p d
         Sig.create(sig_id: scanrow[0], group_id: group_id, type_id: type_id, scan_id: scan.id, system_id: system_id )
       end
     end
