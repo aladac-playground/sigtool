@@ -5,14 +5,31 @@ class ScanController < ApplicationController
   end
   
   def view
+    if params[:q][:system_name_eq] == 'Any'
+      params[:q][:system_name_eq] = nil
+    end
     if params[:rid]
       @groups=Group.all
       @s=""
       scan = Scan.where(rid: params[:rid]).first
       dt = Time.parse("11:00 UTC")
-      @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{dt}'") if scan
+      if params[:pp]
+        per=params[:pp]
+      else
+        per=10
+      end
+      if Time.now.utc > dt
+        @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{dt}'") if scan
+      else
+        @s = Sig.where("scan_id = #{scan.id}") if scan
+      end
+      @systems=['Any']
+      @s.each do |sig|
+        @systems.push sig.system.name
+      end
+      @systems.uniq!
 			@search = @s.search(params[:q])
-			@sigs = @search.result.page(params[:page]).per(15)
+			@sigs = @search.result.page(params[:page]).per(per)
       if @s.empty?
         flash[:warning] = "No results under that ScanID"
         redirect_to "/scan/paste?rid=#{params[:rid]}"

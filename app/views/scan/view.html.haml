@@ -4,6 +4,15 @@
       Add Scan
   %p
     = search_form_for @search, url: scan_view_path, html: { class: "form-horizontal" } do |f|
+      - options = Array.new
+      - i=0
+      - 20.times do 
+        - i=i+5
+        - options.push i
+      - if params[:pp]
+        - per_page = params[:pp]
+      - else
+        - per_page = 10
       = hidden_field_tag :rid, params[:rid]
       - Group.all.each do |group|
         - if params[:q] and params[:q][:group_id_in]
@@ -13,6 +22,14 @@
         = group.name
       = f.text_field :type_name_cont, { placeholder: "Type search..." }
       = f.submit "Filter"
+      %p
+        %b Limit to system
+        = select_tag("q[system_name_eq]", options_for_select(@systems,params[:q][:system_name_eq]))
+      %p
+        %b
+          Scan Results
+          = select_tag(:pp, options_for_select(options,per_page))
+          = f.submit "Apply"
   / .btn-group{"data-toggle" => "buttons"}
   /   %label.btn.btn-primary
   /     %input{:type => "checkbox"}/
@@ -23,8 +40,6 @@
   /   %label.btn.btn-primary
   /     %input{:type => "checkbox"}/
   /     Option 3
-  %h3 
-    Scan Results
   %table.table.table-striped.sig-result
     %tr
       %th= sort_link @search, :system_name, "System"
