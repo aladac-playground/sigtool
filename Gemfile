@@ -6,6 +6,11 @@ gem 'rails', '4.0.0'
 # Use sqlite as the database for Active Record
 gem 'sqlite3'
 
+gem 'ransack'
+
+gem 'kaminari'
+gem 'kaminari-bootstrap'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

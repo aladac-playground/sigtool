@@ -10,7 +10,9 @@ class ScanController < ApplicationController
       @sigs=""
       scan = Scan.where(rid: params[:rid]).first
       dt = Time.parse("11:00 UTC")
-      @sigs = Sig.where("scan_id = #{scan.id} and created_at > '#{dt}'").order(:system_id, :group_id) if scan
+      @sigs = Sig.where("scan_id = #{scan.id}") if scan
+			@search = @sigs.search(params[:q])
+			@sigs = @search.result.page(params[:page]).per(15)
       if @sigs.empty?
         flash[:warning] = "No results under that ScanID"
         redirect_to "/scan/paste?rid=#{params[:rid]}"

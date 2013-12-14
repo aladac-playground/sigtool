@@ -16,11 +16,11 @@
     Scan Results
   %table.table.table-striped.sig-result
     %tr
-      %th System
-      %th ID
-      %th Group
-      %th Type
-      %th Created at
+      %th= sort_link @search, :system_name, "System"
+      %th= sort_link @search, :sig_id, "ID"
+      %th= sort_link @search, :group_name, "Group"
+      %th= sort_link @search, :type_name, "Type"
+      %th= sort_link @search, :created_at, "Created at"
       %th Delete
     - @sigs.each do |sig|
       %tr
@@ -33,3 +33,4 @@
           %form{ method: :post, action: "/scan/delete?sig_id=#{sig.sig_id}"}
             %button.btn-xs.btn-danger
               x
+  = paginate @sigs

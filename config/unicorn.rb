@@ -6,8 +6,8 @@
 # See also http://unicorn.bogomips.org/examples/unicorn.conf.rb for
 # a more verbose configuration using more features.
 
-listen "/home/chi/sigtool/tmp/sockets/unicorn.sock", :backlog => 1024
+listen "/opt/sigtool/tmp/sockets/unicorn.sock", :backlog => 1024
 
 # listen 2007 # by default Unicorn listens on port 8080
 worker_processes 2 # this should be >= nr_cpus
-pid "/home/chi/sigtool/tmp/pids/unicorn.pid"
+pid "/opt/sigtool/tmp/pids/unicorn.pid"
