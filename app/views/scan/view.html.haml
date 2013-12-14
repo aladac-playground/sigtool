@@ -4,6 +4,10 @@
       Add Scan
   %p
     = search_form_for @search, url: scan_view_path, html: { class: "form-horizontal" } do |f|
+      - if request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
+        %a{ href: request.url + "q[system_name_eq]=" + request.headers["HTTP_EVE_SOLARSYSTEMNAME"]}
+          %button.btn-default
+            Current System
       - options = Array.new
       - i=0
       - 20.times do 
@@ -24,7 +28,12 @@
       = f.submit "Filter"
       %p
         %b Limit to system
-        = select_tag("q[system_name_eq]", options_for_select(@systems,params[:q][:system_name_eq]))
+        - if params[:q]
+          - if params[:q][:system_name_eq]
+            - selected_system = params[:q][:system_name_eq]
+          - else
+            - selected_system = nil
+        = select_tag("q[system_name_eq]", options_for_select(@systems, selected_system))
       %p
         %b
           Scan Results

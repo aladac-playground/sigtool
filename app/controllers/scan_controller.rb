@@ -5,9 +5,6 @@ class ScanController < ApplicationController
   end
   
   def view
-    if params[:q][:system_name_eq] == 'Any'
-      params[:q][:system_name_eq] = nil
-    end
     if params[:rid]
       @groups=Group.all
       @s=""
@@ -23,9 +20,9 @@ class ScanController < ApplicationController
       else
         @s = Sig.where("scan_id = #{scan.id}") if scan
       end
-      @systems=['Any']
+      @systems=[ ['Any',''] ]
       @s.each do |sig|
-        @systems.push sig.system.name
+        @systems.push [ sig.system.name, sig.system.name ] 
       end
       @systems.uniq!
 			@search = @s.search(params[:q])
