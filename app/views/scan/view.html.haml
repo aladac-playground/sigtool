@@ -37,7 +37,7 @@
       %tr
         %td= sig.system.name
         %td= sig.sig_id
-        %td= sig.group.name
+        %td{ class: "sig-group-#{sig.group.id}" }= sig.group.name
         %td= sig.type.name
         %td= sig.created_at
         %td

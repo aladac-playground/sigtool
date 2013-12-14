@@ -21,3 +21,19 @@ body {
 .sig-result {
   font-size: 12px;
 }
+
+.sig-group-1 {
+	color: lightblue;
+}
+.sig-group-2 {
+	color: green;
+}
+.sig-group-3 {
+	color: orange;
+}
+.sig-group-4 {
+	color: magenta;
+}
+.sig-group-5 {
+	color: brown;
+}
