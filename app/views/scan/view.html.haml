@@ -2,6 +2,16 @@
   %a{ href: "/scan/paste?rid=#{params[:rid]}"}
     %button.btn.btn-main
       Add Scan
+  %p
+    = search_form_for @search, url: scan_view_path do |f|
+      %label Select Group:
+      = hidden_field_tag :rid, params[:rid]
+      - Group.all.each do |group|
+        = check_box_tag "q[group_id_in][]", group.id,  (params[:q][:group_id_in].include? group.id.to_s) ? true : false 
+        = group.name
+      %label Type:
+      = f.text_field :type_name_cont
+      = f.submit "Filter"
   / .btn-group{"data-toggle" => "buttons"}
   /   %label.btn.btn-primary
   /     %input{:type => "checkbox"}/
