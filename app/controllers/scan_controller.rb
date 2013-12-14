@@ -7,13 +7,13 @@ class ScanController < ApplicationController
   def view
     if params[:rid]
       @groups=Group.all
-      @sigs=""
+      @s=""
       scan = Scan.where(rid: params[:rid]).first
       dt = Time.parse("11:00 UTC")
-      @sigs = Sig.where("scan_id = #{scan.id}") if scan
-			@search = @sigs.search(params[:q])
+      @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{dt}'") if scan
+			@search = @s.search(params[:q])
 			@sigs = @search.result.page(params[:page]).per(15)
-      if @sigs.empty?
+      if @s.empty?
         flash[:warning] = "No results under that ScanID"
         redirect_to "/scan/paste?rid=#{params[:rid]}"
       end

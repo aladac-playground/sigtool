@@ -6,7 +6,7 @@
     = search_form_for @search, url: scan_view_path, html: { class: "form-horizontal" } do |f|
       = hidden_field_tag :rid, params[:rid]
       - Group.all.each do |group|
-        - if params[:q]
+        - if params[:q] and params[:q][:group_id_in]
           = check_box_tag "q[group_id_in][]", group.id,  (params[:q][:group_id_in].include? group.id.to_s) ? true : false 
         - else
           = check_box_tag "q[group_id_in][]", group.id
