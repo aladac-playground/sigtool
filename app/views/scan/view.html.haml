@@ -4,10 +4,6 @@
       Add Scan
   %p
     = search_form_for @search, url: scan_view_path, html: { class: "form-horizontal" } do |f|
-      - if request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
-        %a{ href: request.url + "q[system_name_eq]=" + request.headers["HTTP_EVE_SOLARSYSTEMNAME"]}
-          %button.btn-default
-            Current System
       - options = Array.new
       - i=0
       - 20.times do 
@@ -34,6 +30,12 @@
           - else
             - selected_system = nil
         = select_tag("q[system_name_eq]", options_for_select(@systems, selected_system))
+        - if params[:current_only] and request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
+          = check_box_tag :current_only, true,  params[:current_only] == "true" ? true : false 
+        - else
+          = check_box_tag :current_only, true
+        Current System
+
       %p
         %b
           Scan Results

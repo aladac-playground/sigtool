@@ -5,6 +5,9 @@ class ScanController < ApplicationController
   end
   
   def view
+		if params[:current_only] == "true"
+			params[:q][:system_name_eq] = request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
+		end
     if params[:rid]
       @groups=Group.all
       @s=""
