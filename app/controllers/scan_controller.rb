@@ -13,6 +13,7 @@ class ScanController < ApplicationController
       @s=""
       scan = Scan.where(rid: params[:rid]).first
       dt = Time.parse("11:00 UTC")
+      last_dt = Time.parse("11:00 UTC") - 1.day
       if params[:pp]
         per=params[:pp]
       else
@@ -21,7 +22,7 @@ class ScanController < ApplicationController
       if Time.now.utc > dt
         @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{dt}'") if scan
       else
-        @s = Sig.where("scan_id = #{scan.id}") if scan
+        @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{last_dt}'") if scan
       end
       @systems=[ ['Any',''] ]
       @s.each do |sig|
@@ -77,10 +78,8 @@ class ScanController < ApplicationController
     system_id = system.id
     
     data=params[:paste]
-    p data
     data.split("\n").each do |line|
       line.chomp!
-      p line
       scanrow = line.split("\t")
       if scanrow.length == 6
         type = Type.where(name: scanrow[3]).first
