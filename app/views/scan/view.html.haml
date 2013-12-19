@@ -1,51 +1,51 @@
 .well
-  .col-lg-11.pull-right{ style: "padding-left: 0px" }
-    = search_form_for @search, url: scan_view_path, html: { class: "form-inline" } do |f|
-      - options = Array.new
-      - i=0
-      - 20.times do 
-        - i=i+5
-        - options.push i
-      - if params[:pp]
-        - per_page = params[:pp]
-      - else
-        - per_page = 10
-      = hidden_field_tag :rid, params[:rid]
-      .form-group
-        - if params[:q]
-          - if params[:q][:system_name_eq]
-            - selected_system = params[:q][:system_name_eq]
-          - else
-            - selected_system = nil
-        = select_tag("q[system_name_eq]", options_for_select(@systems, selected_system), class: "form-control" )
-      .form-group
-        = f.text_field :type_name_cont, { placeholder: "Type search...", class: "form-control" }
-      .form-group
-        = select_tag(:pp, options_for_select(options,per_page), class: "form-control" )
-      .form-group
-        = f.submit "Apply", class: "btn btn-main form-control"
-      - if params[:past]
-        = check_box_tag :past, true,  params[:past] == "true" ? true : false
-        Resuts from before DT?
-      - else
-        = check_box_tag :past, true
-        Resuts from before DT?
-      - if params[:current_only] and request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
-        = check_box_tag :current_only, true,  params[:current_only] == "true" ? true : false 
-      - else
-        = check_box_tag :current_only, true
-        Current system?
-      %span.help-block
-      - Group.all.each do |group|
-        - if params[:q] and params[:q][:group_id_in]
-          = check_box_tag "q[group_id_in][]", group.id,  (params[:q][:group_id_in].include? group.id.to_s) ? true : false 
+  = search_form_for @search, url: scan_view_path, html: { class: "form-inline" } do |f|
+    .form-group
+      %a{ href: "/scan/paste?rid=#{params[:rid]}" }
+        %button.btn.btn-success
+          %span.icon-info
+          Add Scan
+    - options = Array.new
+    - i=0
+    - 20.times do 
+      - i=i+5
+      - options.push i
+    - if params[:pp]
+      - per_page = params[:pp]
+    - else
+      - per_page = 10
+    = hidden_field_tag :rid, params[:rid]
+    .form-group
+      - if params[:q]
+        - if params[:q][:system_name_eq]
+          - selected_system = params[:q][:system_name_eq]
         - else
-          = check_box_tag "q[group_id_in][]", group.id
-        = group.name
-  %a{ href: "/scan/paste?rid=#{params[:rid]}" }
-    %button.btn.btn-success
-      %span.icon-info
-      Add Scan
+          - selected_system = nil
+      = select_tag("q[system_name_eq]", options_for_select(@systems, selected_system), class: "form-control" )
+    .form-group
+      = f.text_field :type_name_cont, { placeholder: "Type search...", class: "form-control" }
+    .form-group
+      = select_tag(:pp, options_for_select(options,per_page), class: "form-control" )
+    .form-group
+      = f.submit "Apply", class: "btn btn-main form-control"
+    - if params[:past]
+      = check_box_tag :past, true,  params[:past] == "true" ? true : false
+      Resuts from before DT?
+    - else
+      = check_box_tag :past, true
+      Resuts from before DT?
+    - if params[:current_only] and request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
+      = check_box_tag :current_only, true,  params[:current_only] == "true" ? true : false 
+    - else
+      = check_box_tag :current_only, true
+      Current system?
+    %span.help-block
+    - Group.all.each do |group|
+      - if params[:q] and params[:q][:group_id_in]
+        = check_box_tag "q[group_id_in][]", group.id,  (params[:q][:group_id_in].include? group.id.to_s) ? true : false 
+      - else
+        = check_box_tag "q[group_id_in][]", group.id
+      = group.name
   .row
   %p
     %table.table.table-striped.sig-result
