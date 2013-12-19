@@ -1,5 +1,5 @@
 class ScanController < ApplicationController
-  before_filter :check_trust, :only => :paste
+  before_filter :check_trust, only: [ :paste ]
   skip_before_filter :verify_authenticity_token  
   def paste
   end
