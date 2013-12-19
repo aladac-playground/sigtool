@@ -19,7 +19,13 @@ class ScanController < ApplicationController
       else
         per=10
       end
-      if Time.now.utc > dt
+
+			if params[:past] == "true"
+				dt = dt - 1.day
+				last_dt = last_dt - 1.day
+			end
+
+      if Time.now.utc > dt 
         @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{dt}'") if scan
       else
         @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{last_dt}'") if scan
@@ -32,7 +38,9 @@ class ScanController < ApplicationController
 			@search = @s.search(params[:q])
 			@sigs = @search.result.page(params[:page]).per(per)
       if @s.empty?
-        flash[:warning] = "No results under that ScanID"
+        p="<a href=/scan/view?rid=#{params[:rid]}&past=true>here</a>"
+				p=p.html_safe
+        flash[:warning] = "No results under that ScanID. Click " + p + " to check if there are results before DT" 
         redirect_to "/scan/paste?rid=#{params[:rid]}"
       end
     else

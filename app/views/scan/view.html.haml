@@ -35,6 +35,12 @@
         - else
           = check_box_tag :current_only, true
         Current System
+      %p
+        %b Results from before DT?
+        - if params[:past]
+          = check_box_tag :past, true,  params[:past] == "true" ? true : false 
+        - else
+          = check_box_tag :past, true
 
       %p
         %b
