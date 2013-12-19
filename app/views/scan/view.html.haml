@@ -61,10 +61,17 @@
       %th Delete
     - @sigs.each do |sig|
       %tr
-        %td= sig.system.name
+        %td
+          %a{ href: "http://evemaps.dotlan.net/map/Pure_Blind/#{sig.system.name}#sov", target: "_blank" }
+            = sig.system.name
         %td= sig.sig_id
         %td{ class: "sig-group-#{sig.group.id}" }= sig.group.name
-        %td= sig.type.name
+        %td
+          - if sig.group.name == "Combat Site"
+            %a{ href: "https://wiki.eveonline.com/en/wiki/#{sig.type.name.gsub(/ /,"_")}", target: "_blank" }
+              = sig.type.name
+          - else
+            = sig.type.name
         %td= sig.created_at
         %td
           %form{ method: :post, action: "/scan/delete?sig_id=#{sig.sig_id}"}
