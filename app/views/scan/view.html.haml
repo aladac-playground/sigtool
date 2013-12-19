@@ -1,9 +1,6 @@
 .well
-  %a{ href: "/scan/paste?rid=#{params[:rid]}"}
-    %button.btn.btn-main
-      Add Scan
-  %p
-    = search_form_for @search, url: scan_view_path, html: { class: "form-horizontal" } do |f|
+  .col-lg-11.pull-right{ style: "padding-left: 0px" }
+    = search_form_for @search, url: scan_view_path, html: { class: "form-inline" } do |f|
       - options = Array.new
       - i=0
       - 20.times do 
@@ -14,73 +11,67 @@
       - else
         - per_page = 10
       = hidden_field_tag :rid, params[:rid]
+      .form-group
+        - if params[:q]
+          - if params[:q][:system_name_eq]
+            - selected_system = params[:q][:system_name_eq]
+          - else
+            - selected_system = nil
+        = select_tag("q[system_name_eq]", options_for_select(@systems, selected_system), class: "form-control" )
+      .form-group
+        = f.text_field :type_name_cont, { placeholder: "Type search...", class: "form-control" }
+      .form-group
+        = select_tag(:pp, options_for_select(options,per_page), class: "form-control" )
+      .form-group
+        = f.submit "Apply", class: "btn btn-main form-control"
+      - if params[:past]
+        = check_box_tag :past, true,  params[:past] == "true" ? true : false
+        Resuts from before DT?
+      - else
+        = check_box_tag :past, true
+        Resuts from before DT?
+      - if params[:current_only] and request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
+        = check_box_tag :current_only, true,  params[:current_only] == "true" ? true : false 
+      - else
+        = check_box_tag :current_only, true
+        Current system?
+      %span.help-block
       - Group.all.each do |group|
         - if params[:q] and params[:q][:group_id_in]
           = check_box_tag "q[group_id_in][]", group.id,  (params[:q][:group_id_in].include? group.id.to_s) ? true : false 
         - else
           = check_box_tag "q[group_id_in][]", group.id
         = group.name
-      = f.text_field :type_name_cont, { placeholder: "Type search..." }
-      = f.submit "Filter"
-      %p
-        %b Limit to system
-        - if params[:q]
-          - if params[:q][:system_name_eq]
-            - selected_system = params[:q][:system_name_eq]
-          - else
-            - selected_system = nil
-        = select_tag("q[system_name_eq]", options_for_select(@systems, selected_system))
-        - if params[:current_only] and request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
-          = check_box_tag :current_only, true,  params[:current_only] == "true" ? true : false 
-        - else
-          = check_box_tag :current_only, true
-        Current System
-      %p
-        %b Results from before DT?
-        - if params[:past]
-          = check_box_tag :past, true,  params[:past] == "true" ? true : false 
-        - else
-          = check_box_tag :past, true
-
-      %p
-        %b
-          Scan Results
-          = select_tag(:pp, options_for_select(options,per_page))
-          = f.submit "Apply"
-  / .btn-group{"data-toggle" => "buttons"}
-  /   %label.btn.btn-primary
-  /     %input{:type => "checkbox"}/
-  /     Option 1
-  /   %label.btn.btn-primary
-  /     %input{:type => "checkbox"}/
-  /     Option 2
-  /   %label.btn.btn-primary
-  /     %input{:type => "checkbox"}/
-  /     Option 3
-  %table.table.table-striped.sig-result
-    %tr
-      %th= sort_link @search, :system_name, "System"
-      %th= sort_link @search, :sig_id, "ID"
-      %th= sort_link @search, :group_name, "Group"
-      %th= sort_link @search, :type_name, "Type"
-      %th= sort_link @search, :created_at, "Created at"
-      %th Delete
-    - @sigs.each do |sig|
+  %a{ href: "/scan/paste?rid=#{params[:rid]}" }
+    %button.btn.btn-success
+      %span.icon-info
+      Add Scan
+  .row
+  %p
+    %table.table.table-striped.sig-result
       %tr
-        %td
-          %a{ href: "http://evemaps.dotlan.net/map/Pure_Blind/#{sig.system.name}#sov", target: "_blank" }
-            = sig.system.name
-        %td= sig.sig_id
-        %td{ class: "sig-group-#{sig.group.id}" }= sig.group.name
-        %td
-          - if sig.group.name == "Combat Site"
-            %a{ href: "https://wiki.eveonline.com/en/wiki/#{sig.type.name.gsub(/ /,"_")}", target: "_blank" }
+        %th= sort_link @search, :system_name, "System"
+        %th= sort_link @search, :sig_id, "ID"
+        %th= sort_link @search, :group_name, "Group"
+        %th= sort_link @search, :type_name, "Type"
+        %th= sort_link @search, :created_at, "Created at"
+        %th Delete
+      - @sigs.each do |sig|
+        %tr
+          %td
+            %a{ href: "http://evemaps.dotlan.net/map/Pure_Blind/#{sig.system.name}#sov", target: "_blank" }
+              = sig.system.name
+          %td= sig.sig_id
+          %td{ class: "sig-group-#{sig.group.id}" }= sig.group.name
+          %td
+            - if sig.group.name == "Combat Site"
+              %a{ href: "https://wiki.eveonline.com/en/wiki/#{sig.type.name.gsub(/ /,"_")}", target: "_blank" }
+                = sig.type.name
+            - else
               = sig.type.name
-          - else
-            = sig.type.name
-        %td= sig.created_at
-        %td
-          %form{ method: :post, action: "/scan/delete?sig_id=#{sig.sig_id}"}
-            %button.btn-xs.btn-danger
-              x
-  = paginate @sigs
+          %td= sig.created_at
+          %td
+            %form{ method: :post, action: "/scan/delete?sig_id=#{sig.sig_id}"}
+              %button.btn-xs.btn-danger
+                x
+    = paginate @sigs

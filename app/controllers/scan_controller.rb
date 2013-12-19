@@ -30,7 +30,7 @@ class ScanController < ApplicationController
       else
         @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{last_dt}'") if scan
       end
-      @systems=[ ['Any',''] ]
+      @systems=[ ['Any System',''] ]
       @s.each do |sig|
         @systems.push [ sig.system.name, sig.system.name ] 
       end
