@@ -36,6 +36,7 @@
       Resuts from before DT?
     - if params[:current_only] and request.headers["HTTP_EVE_SOLARSYSTEMNAME"]
       = check_box_tag :current_only, true,  params[:current_only] == "true" ? true : false 
+      Current system?
     - else
       = check_box_tag :current_only, true
       Current system?
