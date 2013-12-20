@@ -7,13 +7,18 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-systems = File.readlines("systems.csv")
+# systems = File.readlines("systems.csv")
+# 
+# systems.each do |line|
+#   line=line.chomp
+#   line=line.split("\t")
+#   id = line[0]
+#   cons_id = line[1]
+#   name = line[2]
+#   System.create(id: id, cons_id: cons_id, name: name)
+# end
 
-systems.each do |line|
-  line=line.chomp
-  line=line.split("\t")
-  id = line[0]
-  cons_id = line[1]
-  name = line[2]
-  System.create(id: id, cons_id: cons_id, name: name)
+systems = YAML.load_file("static/systems.yml")
+systems.each do |system|
+  System.create(system)
 end
