@@ -11,15 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131220130646) do
+ActiveRecord::Schema.define(version: 20131220131252) do
 
   create_table "cons", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "region_id"
   end
 
   create_table "groups", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "regions", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"

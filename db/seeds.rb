@@ -22,3 +22,13 @@ systems = YAML.load_file("static/systems.yml")
 systems.each do |system|
   System.create(system)
 end
+
+cons = YAML.load_file("static/cons.yml")
+cons.each do |con|
+  Cons.create(con)
+end
+
+regs = YAML.load_file("static/regions.yml")
+regs.each do |reg|
+  Region.create(reg)
+end
