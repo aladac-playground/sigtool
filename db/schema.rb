@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131220131252) do
+ActiveRecord::Schema.define(version: 20131221102154) do
 
   create_table "cons", force: true do |t|
     t.string   "name"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20131220131252) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "system_id"
+    t.integer  "hidden"
   end
 
   add_index "sigs", ["group_id"], name: "index_sigs_on_group_id"

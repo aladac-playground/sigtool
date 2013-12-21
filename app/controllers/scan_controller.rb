@@ -27,9 +27,9 @@ class ScanController < ApplicationController
 			end
 
       if Time.now.utc > dt 
-        @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{dt}'") if scan
+        @s = Sig.where("( hidden <> 1 or hidden is null ) and scan_id = #{scan.id} and sigs.created_at > '#{dt}'") if scan
       else
-        @s = Sig.where("scan_id = #{scan.id} and sigs.created_at > '#{last_dt}'") if scan
+        @s = Sig.where("( hidden <> 1 or hidden is null ) and scan_id = #{scan.id} and sigs.created_at > '#{last_dt}'") if scan
       end
       @systems=[ ['Any System',''] ]
       @s.each do |sig|
@@ -113,7 +113,8 @@ class ScanController < ApplicationController
     if params[:sig_id]
       sig=Sig.where(sig_id: params[:sig_id]).first
       if sig
-        sig.delete
+        sig.hidden = 1
+				sig.save
       end
     end
     redirect_to :back
