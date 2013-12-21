@@ -62,7 +62,7 @@
       - @sigs.each do |sig|
         %tr
           %td
-            %a{ href: "http://evemaps.dotlan.net/map/Pure_Blind/#{sig.system.name}#sov", target: "_blank" }
+            %a{ href: "http://evemaps.dotlan.net/map/#{sig.system.region.name.gsub(/ /,"_")}/#{sig.system.name}#sov", target: "_blank" }
               = sig.system.name
           %td= sig.sig_id
           %td{ class: "sig-group-#{sig.group.id}" }= sig.group.name
