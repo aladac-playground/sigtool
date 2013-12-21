@@ -4,7 +4,11 @@
       - params.except(:action, :controller, :commit).each_pair do |k, v|
         - if v.is_a?(Hash)
           - v.each_pair do |name, value|
-            %input{ type: :hidden, value: value, name: "#{k}[#{name}]" }
+            - if value.is_a?(Array)
+              - value.each do |val|
+                %input{ type: :hidden, value: val, name: "#{k}[#{name}][]" }
+            - else
+              %input{ type: :hidden, value: value, name: "#{k}[#{name}]" }
         - else
           %input{ type: :hidden, value: v, name: k }
       %legend Paste scan result
