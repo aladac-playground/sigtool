@@ -1,10 +1,12 @@
 - if @trust
   .well
-    - if params[:rid]
-      - action = "/scan/parse?rid=#{params[:rid]}"
-    - else
-      - action = "/scan/parse"
-    %form{ method: :post, action: action }
+    %form{ method: :post, action: scan_parse_path }
+      - params.except(:action, :controller, :commit).each_pair do |k, v|
+        - if v.is_a?(Hash)
+          - v.each_pair do |name, value|
+            %input{ type: :hidden, value: value, name: "#{k}[#{name}]" }
+        - else
+          %input{ type: :hidden, value: v, name: k }
       %legend Paste scan result
       %p
       %textarea{ name: :paste, cols: 100, rows: 10 }

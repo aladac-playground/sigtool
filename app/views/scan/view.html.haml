@@ -1,7 +1,7 @@
 .well
   = search_form_for @search, url: scan_view_path, html: { class: "form-inline" } do |f|
     .form-group
-      %a{ href: "/scan/paste?rid=#{params[:rid]}" }
+      %a{ href: "/scan/paste?#{params.except(:action, :controller, :commit).to_query}" }
         %button.btn.btn-success
           %span.icon-info
           Add Scan

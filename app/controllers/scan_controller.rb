@@ -1,5 +1,6 @@
 class ScanController < ApplicationController
   before_filter :check_trust, only: [ :paste ]
+  before_filter :sanitize_search
   skip_before_filter :verify_authenticity_token  
   def paste
   end
@@ -106,7 +107,7 @@ class ScanController < ApplicationController
         Sig.create(sig_id: scanrow[0], group_id: group_id, type_id: type_id, scan_id: scan.id, system_id: system_id )
       end
     end
-    redirect_to "/scan/view?rid=#{rid}"
+    redirect_to "/scan/view?#{ params.except(:action, :controller, :commit).to_query }"
   end
   def delete
     if params[:sig_id]
@@ -129,4 +130,12 @@ def check_trust
   end
 end
 
+
+def sanitize_search
+  if params[:q]
+    # if params[:q].empty?
+    #   params.delete(:q)
+    # end
+  end
+end
   
