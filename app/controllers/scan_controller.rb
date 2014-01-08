@@ -98,9 +98,6 @@ class ScanController < ApplicationController
         type_id = type.id
         
         group = Group.where(name: scanrow[2]).first
-        if group.nil?
-          group = Group.create(name: scanrow[2])
-        end
         group_id = group.id
         sig_id = scanrow[0]  
         
