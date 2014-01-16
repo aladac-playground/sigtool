@@ -1,0 +1,10 @@
+%table.table
+  - @systems.each do |s|
+    - system = System.find(s[0])
+    %tr
+      %td
+        = system.region.name
+      %td
+        = system.name
+      %td
+        = s[1]

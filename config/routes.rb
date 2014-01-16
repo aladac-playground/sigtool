@@ -1,4 +1,7 @@
 Sigtool::Application.routes.draw do
+  get "stats/overview"
+  get "stats/all"
+  get "stats/rated"
   get "scan/paste"
   get "scan/view"
   get "scan/add"
