@@ -1,28 +1,12 @@
-== README
+== SIGTOOL
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a tool that parses and stores scan results from the Probe Scanner interface of EVE Online.
+It uses the IGB trust, and based on the HTTP Headers sent by the IGB stores the Solar System in which the scan took place.
 
-Things you may want to cover:
+SIGTOOL uses a part of the CCP Static Data Dump, namely: Systems, Constellations and Regions.
 
-* Ruby version
+== HOW TO MAKE IT WORK
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* checkout
+* run migrations
+* start the server
