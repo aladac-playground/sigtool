@@ -5,6 +5,18 @@ It uses the IGB trust, and based on the HTTP Headers sent by the IGB stores the 
 
 SIGTOOL uses a part of the CCP Static Data Dump, namely: Systems, Constellations and Regions.
 
+== IGB
+
+The tool is designed to work from the EVE Online IGB, but you still can view the scan results from any browser, provided you have the link to the scan.
+
+== FEATURES
+
+* System name links to Dotlan Maps
+* Signature Type for Combat Sites links to EVElopedia's description of that site 
+* View current (After DT) or past (Before DT) results
+* Filter signature groups
+* Show results for the system you're currently in
+
 == HOW TO MAKE IT WORK
 
 * checkout
